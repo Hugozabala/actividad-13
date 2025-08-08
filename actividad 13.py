@@ -10,12 +10,6 @@ def menu():
 
 class Repartidor:
     def __init__(self, nombre, paquetes, zona):
-        if not nombre or not isinstance(nombre):
-            raise ValueError("El nombre debe ser una cadena no vacía.")
-        if not isinstance(paquetes, int) or paquetes < 0:
-            raise ValueError("Los paquetes deben ser un número entero positivo.")
-        if not zona:
-            raise ValueError("La zona no puede estar vacía.")
 
         self.nombre = nombre
         self.paquetes = paquetes
@@ -81,37 +75,52 @@ class EmpresaMensajeria:
         print("Repartidor(es) con MENOS entregas:")
         for r in peores:
             print(f" - {r}")
-
 empresa = EmpresaMensajeria()
+op=0
+while op!=6:
+    menu()
 
-cantidad = int(input("¿Cuántos repartidores desea ingresar? "))
+    op=int(input("ingrese una opcion aejecutar"))
+    match op:
+            case 1:
 
-for i in range(cantidad):
-    print(f"\nRepartidor #{i + 1}")
-    try:
-        nombre = input("Ingrese el nombre completo: ")
-        paquetes = int(input("Ingrese paquetes entregados: "))
-        zona = input("Ingrese zona: ")
+                cantidad = int(input("¿Cuántos repartidores desea ingresar? "))
 
-        repartidor = Repartidor(nombre, paquetes, zona)
-        empresa.agregar_repartidor(repartidor)
-    except ValueError as e:
-        print(f"Error al ingresar datos: {e}")
+                for i in range(cantidad):
+                     print(f"\nRepartidor #{i + 1}")
+                     try:
+                            nombre = input("Ingrese el nombre completo: ")
+                            paquetes = int(input("Ingrese paquetes entregados: "))
+                            zona = int(input("Ingrese zona: "))
 
-print("\n--- Registro Original ---")
-for r in empresa.repartidores:
-    print(r)
+                            repartidor = Repartidor(nombre, paquetes, zona)
+                            empresa.agregar_repartidor(repartidor)
+                     except ValueError as e:
+                            print(f"Error al ingresar datos: {e}")
 
-empresa.ordenar_por_paquetes()
-empresa.mostrar_ranking()
+            case 2:
+                  print("\n--- Registro Original ---")
+                  for r in empresa.repartidores:
+                     print(r)
+
+            case 3:
+                 empresa.ordenar_por_paquetes()
+
+            case 4:
+                print("\n--- Búsqueda de Repartidor ---")
+                nombre_buscar = input("Ingrese el nombre del repartidor a buscar: ")
+                resultado = empresa.buscar_repartidor(nombre_buscar)
+                if resultado:
+                    print(f"Repartidor encontrado: {resultado}")
+                else:
+                   print("Repartidor no encontrado.")
+
+            case 5:
+                 empresa.estadisticas()
+            case 6:
+                print("fin de programa ")
+
+            case _:
+                print("ingrese una opcion valida")
 
 
-print("\n--- Búsqueda de Repartidor ---")
-nombre_buscar = input("Ingrese el nombre del repartidor a buscar: ")
-resultado = empresa.buscar_repartidor(nombre_buscar)
-if resultado:
-    print(f"Repartidor encontrado: {resultado}")
-else:
-    print("Repartidor no encontrado.")
-
-empresa.estadisticas()
