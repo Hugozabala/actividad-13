@@ -44,7 +44,7 @@ class EmpresaMensajeria:
 
     def buscar_repartidor(self, nombre):
         for r in self.repartidores:
-            if r.nombre.lower() == nombre.lower():
+            if r.nombre == nombre:
                 return r
         return None
 
